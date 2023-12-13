@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Detective Game</title>
+        <link href="https://fonts.googleapis.com/css?family=Nova Round|Almendra SC|Aldrich" rel="stylesheet">
+        <style>body{
+    opacity:0;
+    transition:opacity 0.5s;
+    user-select:none;
+}
+
+#light{
+    position:absolute;
+    width:100%;
+    height:100%;
+    left:0;
+    top:0;
+    background-color:black;
+}
+
+#room{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:90%;
+    background-size:cover;
+    background-position:center;
+    overflow:hidden;
+    z-index:-1;
+    cursor:crosshair;
+}
+
+#pass{
+    position:fixed;
+    bottom:0;
+    left:0;
+    background-color:#151515;
+    width:100%;
+    height:10%;
+    overflow:hidden;
+}
+
+#password{
+    position:absolute;
+    width:55%;
+    height:80%;
+    bottom:0;
+    padding:0;
+    border:none;
+    outline:none;
+    top:10%;
+    left:5%;
+    background-color:#333;
+    text-align:center;
+    color:#999;
+    letter-spacing:1px;
+}
+
+#save{
+    position:absolute;
+    width:20%;
+    height:80%;
+    top:10%;
+    right:5%;
+    outline:none;
+    background-color:#333;
+    border:1vmin ridge #222;
+    transition:transform 0.1s;
+    color:#999;
+}
+
+#save:active{
+    transform:scale(0.9);
+}
+
+.dot{
+    position:absolute;
+    width:0;
+    height:0;
+    padding:1vmin;
+    background-color:green;
+    border-radius:50%;
+    left:64%;
+    border:1px solid black;
+}
+
+#dot1{top:11%;}
+#dot2{top:40%;}
+#dot3{top:69%;}
+#dot4{
+    top:11%;
+    left:69%;
+}
+#dot5{
+    top:40%;
+    left:69%;
+}
+#dot6{
+    top:69%;
+    left:69%;
+}
+
+#l1, #l2, #l3, #l4{
+    position:absolute;
+    font-weight:bold;
+    user-select:none;
+    cursor:default;
+    color:rgba(0 , 0 , 0 , 0.65);
+}
+
+#failed{
+    position:absolute;
+    color:red;
+    top:45%;
+    left:50%;
+    transform:translate(-50% , -50%) rotate(-7deg) scale(0);
+    font-size:180%;
+    font-style:italic;
+    transition:opacity 1s, transform 0.55s;
+    opacity:0;
+    font-family:Almendra SC;
+    word-spacing:3px;
+    user-select:none;
+}
+
+#load{
+    color:white;
+    opacity:1;
+    transform:translate(-50% , -50%) rotate(-7deg) scale(1);
+}
+
+#replayButton{
+    width:55%;
+    height:80%;
+    position:absolute;
+    left:5%;
+    top:180%;
+    transition:all 1s;
+    background-color:#444;
+    color:#999;
+    outline:none;
+    letter-spacing:1px;
+    border:1vmin ridge #333;
+}
+
+#closed{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background-color:black;
+    left:0;
+    top:0;
+    transition:left 1s;
+}
+
+#frontPage{
+    position:fixed;
+    width:100%;
+    height:100%;
+    left:0;
+    top:0;
+    background:url("https://www.dropbox.com/s/b9trr02pht555hz/istockphoto-506198676-612x612.jpg?dl=1");
+    background-size:cover;
+    background-position:center;
+    transition:opacity 1s;
+}
+
+#start, #info{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50% , -150%);
+    width:35vmin;
+    height:17.5vmin;
+    font-size:9vmin;
+    border:1vmin ridge #111;
+    background:linear-gradient(to right, rgba(0 , 0 , 0 , 0.5) , transparent, rgba(0 , 0 , 0 , 0.5));
+    color:#000;
+    outline:none;
+    transition:all 0.1s;
+    text-shadow:0 0 1vmin white;
+}
+
+#start:hover, #info:hover{
+    box-shadow:0 0 50vmin 0 red;
+}
+#start:active{
+    box-shadow:0 0 3vmin 1vmin red;
+}
+
+#info{
+    transform:translate(-50% , 0%);
+}
+
+
+#clue, #timer{
+    color:white;
+    position:absolute;
+    right:5%;
+    top:2%;
+    border:1px solid white;
+    border-radius:10vmin;
+    padding:2px;
+    font-size:90%;
+}
+
+h6{
+    position:absolute;
+    right:2vmin;
+    bottom:0;
+    text-shadow:0 0 1px red;
+}
+
+
+#word1, #word2{
+    position:absolute;
+    right:15%;
+    top:5%;
+    font-size:11vmin;
+    text-shadow:0 0 1vmin red;
+    transform:rotate(5deg);
+    font-weight:bold;
+    animation-iteration-count:infinite;
+    animation-duration:2s;
+    animation-name:blink;
+    font-family:Almendra SC;
+}
+
+@keyframes blink{
+    50%{
+        text-shadow:0 0 4vmin red;
+    }
+}
+
+#word2{
+    font-size:9vmin;
+    top:15%;
+    right:20%;
+}
+
+</style>
+    </head>
+    <body>
+    <!--
+        Creator: me
+        
+        Remember to leave an Upvote if you like it.
+        Working on adding more maps. (It is going to be awesome.)
+    -->
+        <div id="fullRoom">
+            <div id="light">
+            </div>
+            <!--The numbers-->
+            <p id="l1" class="l"></p>
+            <p id="l2" class="l"></p>
+            <p id="l3" class="l"></p>
+            <!--end-->
+            
+            <p id="failed"></p>
+            <p id="clue" onclick="hiddenClue()">Clue</p>
+        </div>
+        
+        <div id="pass">
+            <input type="number" placeholder="Password" id="password">
+            <button id="save">Enter</button>
+            
+            <div class="dot" id="dot1"></div>
+            <div class="dot" id="dot2"></div>
+            <div class="dot" id="dot3"></div>
+            <div class="dot" id="dot4"></div>
+            <div class="dot" id="dot5"></div>
+            <div class="dot" id="dot6"></div>
+            
+            <button id="replayButton" onclick="replay()"></button>
+            <div id="closed"></div>
+        </div>
+        
+        <!--Front Page-->
+        <div id="frontPage">
+            <div id="word1">Detective</div>
+            <div id="word2">Game</div>
+            <button id="start" onclick="start()">Start</button>
+            <button id="info">Info</button>
+            <h6>Created by Alex Tusinean</h6>
+        </div>
+        <script>function $(x){
+    switch (x[0]){
+        case "#":
+            var k=x.substr(1);
+            return document.getElementById(k);
+        case ".":
+            var k=x.substr(1);
+            return document.getElementsByClassName(k);
+        default:
+           return document.getElementsByTagName(x);
+    }
+}
+
+var life=5;
+
+alert("CHECK THE INFO PART FOR RULES  ----ORDERMANIA SPECIAL");
+
+
+function rules(){
+    alert("The rules:\n\n * You have to find 3 numbers hidden in that place.\n * You have to form a password from those 3 numbers and enter it.\n * Remember, there are 6 possible passwords.\n\n* You can use one hint per round by double clicking the screen.\n * ALL THE BEST DETECTIVE");
+}
+
+function start(){
+    $("#frontPage").style.opacity="0";
+    setTimeout(function(){
+        $("#frontPage").style.display="none";
+    },1000)
+    $("#closed").style.left="-100%";
+    $("#word1").style.animationIterationCount="0";
+    $("#word1").style.animationIterationCount="0";
+    
+}
+
+function go(event){
+    var posX=event.touches[0].clientX;
+    var posY=event.touches[0].clientY;
+    $("#light").style.background=`radial-gradient(circle at ${posX}px ${posY}px ,rgba(255, 255, 140, 0.25) , transparent 20% , rgba(0 , 0 , 0 , 0.96) 30%)`;
+}
+
+function goPC(event){
+    var posX=event.clientX;
+    var posY=event.clientY;
+    $("#light").style.background=`radial-gradient(circle at ${posX}px ${posY}px ,rgba(255, 255, 140, 0.25) , transparent 20% , rgba(0 , 0 , 0 , 0.96) 30%)`;
+}
+
+
+function randNum(){
+    return Math.floor(Math.random()*10);
+}
+var p1=randNum();
+var p2=randNum();
+var p3=randNum();
+
+function position(x,y){
+    $(x).innerText=y;
+    $(x).style.left=`calc(${Math.ceil(Math.random()*100)}% - 8px)`;
+    $(x).style.top=`calc(${Math.ceil(Math.random()*90)}% - 8px)`;
+}
+
+function begin(){
+    position("#l1",p1);
+    position("#l2",p2);
+    position("#l3",p3);
+}
+
+function randMaps(){
+    var maps=["https://www.dropbox.com/s/b2ohzliwaguhply/ghost-rider250-highresscreenshot00001.jpg?dl=1"/*underground base*/,"https://www.dropbox.com/s/pd5ralmom7zh419/inside-abandoned-house-photos-old-room-life-long-gone-gary-heller.jpg?dl=1"/*House*/,"https://www.dropbox.com/s/3nc46g0gaeo7iln/Inside%20the%20Sweet%20Shop%20Kirkby%20Lonsdale.jpg?dl=1"/*Shop*/,"https://www.dropbox.com/s/b0tvue4weauh4bc/johannes-otte-north-pines-detective-scene4.jpg?dl=1"/*detective house*/,"https://www.dropbox.com/s/3uttywhdbhmoyia/49f47e7b-d938-4b96-a509-19e6621123db.jpg?dl=1"/*Hospital*/];
+    var realMap=maps[Math.floor(Math.random()*maps.length)];
+    
+    $("#room").style.background=`url(${realMap})`;
+    $("#room").style.backgroundSize="cover";
+    $("#room").style.backgroundPosition="center";
+    
+}
+
+function map(){
+    var place = document.createElement("div");
+    document.body.appendChild(place);
+    place.id="room";
+    randMaps();
+}
+
+function hiddenClue(){
+    $("#clue").style.display="none";
+    for(k=0; k< $(".l").length; k++){
+        $(".l")[k].style.textShadow="0 0 1px red";
+        setTimeout(function(){
+            for(k=0; k< $(".l").length; k++){
+                $(".l")[k].style.textShadow="none";
+            }//end of second for.
+        },450)//end of timer.
+    }//end of first for
+}//end of function
+
+
+function enterPassword(){
+    if ($("#password").value==`${p1}${p2}${p3}` || $("#password").value==`${p1}${p3}${p2}` || $("#password").value==`${p2}${p1}${p3}` /*|| $("#password").value==`${p2}${p3}${p1}` || $("#password").value==`${p3}${p2}${p1}` || $("#password").value==`${p3}${p1}${p2}`*/){
+        $("#failed").style.transform="translate(-50% , -50%) rotate(-7deg) scale(1)";
+        $("#failed").style.opacity="1";
+        $("#failed").style.color="green";
+        $("#failed").innerText="You Win!";
+        $("#save").removeEventListener("click",enterPassword);
+        $("#replayButton").style.top="10%";
+        $("#replayButton").innerText="Next Level";
+    }
+    else{
+        $(".dot")[life].style.backgroundColor="red";
+        life--;
+    }
+    if (life < 0){
+        $("#failed").style.color="red";
+        $("#failed").innerText="Game Over";
+        $("#failed").style.transform="translate(-50% , -50%) rotate(-7deg) scale(1)";
+        $("#failed").style.opacity="1";
+        $("#save").removeEventListener("click",enterPassword);
+        $("#replayButton").style.top="10%";
+        $("#replayButton").innerText="Replay";
+    }
+    $("#password").value="";
+}
+
+
+function replay(){
+    life=5;
+    for(k=0; k<$(".dot").length; k++){
+        $(".dot")[k].style.backgroundColor="green";
+        $("#failed").style.opacity="0";
+        $("#failed").style.transform="translate(-50% , -50%) rotate(-7deg) scale(0)";
+    }
+    p1=randNum();
+    p2=randNum();
+    p3=randNum();
+    begin();
+    $("#clue").style.display="block";
+    $("#save").addEventListener("click",enterPassword);
+    $("#replayButton").style.top="180%";
+}
+
+
+window.onload=function(){
+    document.body.style.opacity="1";
+    map();
+    $("#info").addEventListener("click",rules);
+    $("#light").addEventListener("touchmove",function(){
+        go(event);
+    })
+    begin();
+    $("#save").addEventListener("click",enterPassword);
+    $("#light").addEventListener("mousemove",function(){
+        goPC(event);
+    })
+}
+</script>
+    </body>
+</html>

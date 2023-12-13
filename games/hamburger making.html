@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hamburger Game</title>
+        <link href="https://fonts.googleapis.com/css?family=Gupter&display=swap" rel="stylesheet">
+        <style>body{
+    user-select:none;
+}
+
+#fullGame{
+    display:none;
+}
+
+#slide1{
+    position:absolute;
+    width:100%;
+    height:100%;
+    left:-100%;
+    top:0;
+    background-color:#eeeeee;
+    z-index:-1;
+    transition:all 1s;
+}
+#bread{
+    width:22vmin;
+    height:3.5vmin;
+    background:linear-gradient(to bottom, #eca, #db9);
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    border-radius:10vmax 10vmax 50vmax 50vmax;
+    border-bottom:2px dotted #a86;
+}
+
+#meat{
+    width:20vmin;
+    height:3vmin;
+    background:radial-gradient(#531,#753);
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    border-radius:50vmax;
+}
+
+#green{
+    width:20vmin;
+    height:1.2vmin;
+    background:linear-gradient(to right,#0b0, #090, #0b0);
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    border-radius:50vmax;
+}
+
+#cheese{
+    width:20.5vmin;
+    height:1vmin;
+    background-color:gold;
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    border-radius:5%;
+}
+
+#ketchup{
+    width:19vmin;
+    height:.5vmin;
+    background-color:#900;
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    border-radius:50vmax;
+}
+
+#onion{
+    width:18.5vmin;
+    height:.35vmin;
+    background-color:purple;
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    border-radius:25%;
+}
+
+#egg{
+    width:19.5vmin;
+    height:1.85vmin;
+    background:radial-gradient(gold 37% , #eee 40%);
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    border-radius:25vmax;
+}
+
+
+#sandwich{
+    position:fixed;
+    top:0%;
+    left:50%;
+    transform:scale(1.5);
+    transition:transform 0.5s , opacity 1s;
+}
+
+#leftSide, #rightSide{
+    position:absolute;
+    left:0;
+    top:0;
+    width:24vw;
+    height:100%;
+    background-color:silver;
+    z-index:-1;
+    border-right:2vw solid #321;
+}
+
+#rightSide{
+    left:74vw;
+    border-right:none;
+    border-left:2vw solid #331;
+}
+
+#bottomSide, #topSide{
+    width:52%;
+    height:15vh;
+    position:absolute;
+    background-color:silver;
+    bottom:0;
+    left:24vw;
+    border-top:2vw solid #321;
+    z-index:-1;
+}
+#topSide{
+    top:0;
+    border-bottom:2vw solid #321;
+    border-top:none;
+}
+
+.item{
+    position:absolute;
+    width:24%;
+    height:15%;
+    top:0;
+    box-shadow:0 0 1px black;
+    letter-spacing:1px;
+    font-family:'Gupter';
+    font-weight:bold;
+}
+
+#it1{
+    left:50%;
+    transform:translate(-50%);
+    background:linear-gradient(120deg, #0d0 , #090 , #0d0);
+}
+#it2{
+    top:15%;
+    left:0;
+    color:#531;
+}
+#it3{
+    top:42.5%;
+    left:0;
+    color:orange;
+}
+#it4{
+    top:70%;
+    left:0;
+    color:green;
+}
+#it5{
+    right:0;
+    top:70%;
+    color:red;
+}
+#it6{
+    top:42.5%;
+    right:0;
+    color:purple;
+}
+#it7{
+    top:15%;
+    right:0;
+}
+#it8{
+    top:85%;
+    left:50%;
+    transform:translate(-50%);
+    background:linear-gradient(120deg, #d00 , #900 , #d00);
+    color:white;
+}
+
+
+
+#slide2{
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:linear-gradient(to bottom, white, aqua 40%);
+    z-index:-2;
+    transition:all 1s;
+}
+
+#leftSide2, #rightSide2{
+    position:absolute;
+    left:0;
+    top:0;
+    width:15%;
+    height:100%;
+    background-color:#db9;
+    border-right:2vw solid #531;
+}
+
+#rightSide2{
+    left:85%;
+    border-right:none;
+    border-left:2vw solid #531;
+}
+
+#bottomSide2{
+    width:72%;
+    height:20%;
+    position:absolute;
+    left:15%;
+    bottom:0;
+    border-top:2vh solid #531;
+    background-color:#db9;
+}
+
+#start{
+    position:absolute;
+    left:50%;
+    transform:translate(-50%);
+    bottom:5%;
+    background-color:transparent;
+    transition:all 0.5s;
+    color:#642;
+    border:2vmin ridge #753;
+    padding:3vmin;
+    letter-spacing:1px;
+    font-weight:bold;
+    display:none;
+}
+
+#customer{
+    width:50%;
+    height:50%;
+    position:absolute;
+    left:25%;
+    top:32%;
+    transition:left 1s;
+    z-index:-1;
+}
+
+#customerMessage{
+    position:absolute;
+    left:50%;
+    transform:translate(-50%);
+    top:20%;
+}
+
+#prices{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%) scale(0);
+    transition:transform 0.5s;
+    width:80%;
+    height:80%;
+    background:radial-gradient(white, #cecece);
+    border:1vmin solid #aaa;
+    z-index:2;
+    text-align:center;
+    overflow:scroll;
+}
+
+#prices p{
+    margin:5%;
+}
+
+#close{
+    position:absolute;
+    top:0;
+    right:0;
+    background-color:red;
+    font-size:150%;
+    color:white;
+    outline:none;
+    border:1vmin ridge #c00;
+}
+
+#profit{
+    position:absolute;
+    bottom:1%;
+    left:5%;
+}
+
+#cost{
+    position:absolute;
+    left:5%;
+    bottom:1%;
+}
+
+#mark{
+    position:absolute;
+    right:0;
+    bottom:0;
+    width:20vmin;
+}
+
+/*#sign{
+    width:15vmin;
+    position:absolute;
+    left:0;
+    top:40%;
+}*/
+
+#topSide2{
+    width:100%;
+    height:10%;
+    background:linear-gradient(to bottom, darkred, red);
+    border-radius:0 0 50% 50%;
+    position:absolute;
+    left:0;
+    top:0;
+    z-index:-1;
+}
+
+#bottle{
+    height:25vmin;
+    position:absolute;
+    bottom:19%;
+    left:65%;
+}
+
+
+#middle{
+    width:40vmin;
+    height:40vmin;
+    position:fixed;
+    left:50%;
+    top:50%;
+    transform:translate(-50% , -50%);
+    background-color:rgba(225,225,225,0.3);
+    border-radius:50%;
+    box-shadow:0 0 1vmin black;
+    transition:opacity 1s;
+}
+
+#how1{
+    position:absolute;
+    top:calc(50% - 4vh);
+    transform:translate(-50%, -50%);
+    left:50%;
+    font-size:4vh;
+    font-weight:bold;
+}
+
+#round{
+    position:absolute;
+    width:100%;
+    height:10%;
+    border-left:5px solid blue;
+    border-right:5px solid red;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    animation-iteration-count:infinite;
+    animation-duration:3s;
+    animation-name:rot;
+    border-radius:5px;
+}
+
+@keyframes rot{
+    50%{
+        transform:translate(-50%,-50%) rotate(360deg);
+    }
+}
+</style>
+    </head>
+    <body>
+    
+    <div id="fullGame">
+        <div id="slide1">
+            <div id="buttons">
+                <button id="it1" class="item" onclick="finish()">Finish hamburger</button>
+                <button class="item" id="it2" onclick="elemenT('meat',3,4)">Add meat</button>
+                <button class="item" id="it3" onclick="elemenT('cheese',1,2)">Add Cheese</button>
+                <button class="item" id="it4" onclick="elemenT('green',1.2,1)">Add Salad</button>
+                <button id="it5" class="item" onclick="elemenT('ketchup',.5,1)">Add Ketchup</button>
+                <button class="item" id="it6" onclick="elemenT('onion',.35,1)">Add Onion</button>
+                <button class="item" id="it7" onclick="elemenT('egg',1.5,3)">Add Egg</button>
+                <button onclick="prices('1')" class="item" id="it8">Prices</button>
+            </div>
+            <p id="cost">Cost: </p>
+            <div id="prices">
+                <button id="close" onclick="prices('0')">X</button>
+                <h2>Ingredients</h2>
+                <br />
+                <p>Ketchup 1$</p>
+                <p>Onion 1$</p>
+                <p>Cheese 2$</p>
+                <p>Egg 3$</p>
+                <p>Salad 1$</p>
+                <p>Meat 4$</p>
+                <br />
+                <h2>Rules</h2>
+                <p>You have to make a hamburger for every customer. The customer gives you an amount of money, but if the cost of your hamburger is less than a half of his money, he gets his food for free.<br />You lose the money you give for ingredients, and your profit is the difference between customer cash and hamburger cost.</p>
+                <br />
+                <h2>Example 1</h2>
+                <p>Customer has 20$</p>
+                <p>Your hamburger costs 8$</p>
+                <p>Customer is unhappy and gets his food for free.</p>
+                <p>Your score is previous profit - 8</p>
+                <h2>Example 2</h2>
+                <p>Customer has 20$</p>
+                <p>Your hamburger costs 13$</p>
+                <p>Customer is happy.</p>
+                <p>Your score is previous profit + 20 - 13</p>
+                
+            </div>
+            
+            <div id="sandwich"></div>    
+            <div id="leftSide"></div>
+            <div id="rightSide"></div>
+            <div id="bottomSide"></div>
+            <div id="topSide"></div>
+        </div>
+    
+        <div id="slide2">
+            <div id="leftSide2"></div>
+            <div id="rightSide2"></div>
+            <div id="bottomSide2"></div>
+            <div id="topSide2"></div>
+            <button id="start" onclick="begin()">Begin</button>
+            <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRKfHw-I8DX8SZubXTkBD9nXNE-VO4I7sabag&usqp=CAU' id="customer">
+            <p id="customerMessage"></p>
+            <p id="profit">Total: 0</p>
+            <img src="https://imgur.com/Izyt8cf.jpg" id="mark">
+            </div>
+    </div>
+    <script>var size=50;
+var usedThings=0;
+var total=0;
+
+function elemenT(x,t,cash){
+    size-=t/2;
+    var el = document.createElement("div");
+    document.getElementById("sandwich").appendChild(el);
+    el.id = x;
+    el.style.top=`${size}vmin`
+    size-=t/2;
+    usedThings+=parseInt(cash);
+    document.getElementById("cost").innerText=`Cost: ${usedThings}$`;
+}
+
+var customerCash;
+function customer(p){
+    customerCash=Math.floor(Math.random()*25)+5;
+    //leaving customer
+    setTimeout(function(){
+        document.getElementById('customer').style.left=`${p}%`;
+    },500);
+}
+
+function finish(){
+    size-=3.5/2;
+    var el = document.createElement("div");
+    document.getElementById("sandwich").appendChild(el);
+    el.id = "bread";
+    el.style.top=`${size}vmin`;
+    el.style.borderRadius="50vmax 50vmax 10vmax 10vmax";
+    el.style.borderBottom="none";
+    el.style.borderTop="2px dotted #a86";
+    size-=3.5/2;
+    //if customer doesn't like the food, you lose the cash.
+    if(customerCash>(usedThings*2)){total-=customerCash;}
+    total+=customerCash-usedThings;
+    document.getElementById("profit").innerText=`Total: ${total}$`;
+    usedThings=0;
+    document.getElementById("customerMessage").innerText="";
+    document.getElementById("slide1").style.left="-100%";
+    document.getElementById("slide2").style.left="0";
+    document.getElementById('start').style.display="none";
+
+    setTimeout(function(){
+        document.getElementById('sandwich').style.transform='scale(1.1)';
+    document.getElementById('sandwich').style.opacity="0";
+    //leaving customer
+    setTimeout(function(){
+        document.getElementById('customer').style.left=`80%`;
+    },500);
+        
+        //new customer
+        setTimeout(function(){
+            
+            customer('25');
+            setTimeout(function(){
+                document.getElementById('start').style.display="block";
+                setTimeout(function(){
+                    document.getElementById("customerMessage").innerText=`Hello. I have ${customerCash}$. please make me a hamburger :)`;
+                },250);
+            },1000);
+        },Math.random()*2000+1000);
+    },1500);
+}
+
+function begin(){
+    size=50;
+    //deleting previous food.
+    for(k=0; k<document.getElementById("sandwich").getElementsByTagName("div").length;k++){
+        document.getElementById("sandwich").getElementsByTagName("div")[k].style.display="none";
+    }
+    document.getElementById('sandwich').style.transform='scale(1.5)';
+    document.getElementById('sandwich').style.opacity="1";
+    setTimeout(function(){
+        elemenT("bread",3.5,0);
+    },1000);
+    document.getElementById("buttons").style.display="block";
+    document.getElementById("slide1").style.left="0";
+    document.getElementById("slide2").style.left="100%";
+}
+
+function prices(t){
+    document.getElementById("prices").style.transform=`translate(-50%, -50%) scale(${t})`;
+}
+
+window.onload=function(){
+    document.getElementById("how1").innerText="Open"
+    document.getElementById("middle").style.opacity="0";
+    setTimeout(function(){
+        document.getElementById("middle").style.display="none";
+        customer('25');
+    document.getElementById('start').style.display="block";
+    setTimeout(function(){
+                    document.getElementById("customerMessage").innerText=`Hello. I have ${customerCash}$. please make me a hamburger :)`;
+    },250);
+    document.getElementById("fullGame").style.display="block";
+    },1000);
+};
+
+</script>
+    <div id="middle">
+            <p id="how1">Loading</p>
+            <div id="round"></div>
+        </div>
+    </body>
+</html>
